@@ -25,6 +25,7 @@ import com.google.api.gax.grpc.PagedListResponseContext;
 import com.google.api.gax.grpc.UnaryCallable;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
 import com.google.protobuf.ExperimentalApi;
 import com.google.pubsub.v1.ListSnapshotsRequest;
 import com.google.pubsub.v1.ListSnapshotsResponse;

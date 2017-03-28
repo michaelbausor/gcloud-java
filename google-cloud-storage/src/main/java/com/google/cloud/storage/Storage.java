@@ -24,6 +24,7 @@ import com.google.auth.ServiceAccountSigner;
 import com.google.auth.ServiceAccountSigner.SigningException;
 import com.google.cloud.FieldSelector;
 import com.google.cloud.FieldSelector.Helper;
+import com.google.api.gax.core.Page;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.Service;
 import com.google.cloud.WriteChannel;
