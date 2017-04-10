@@ -21,6 +21,7 @@ import static com.google.cloud.monitoring.spi.v3.PagedResponseWrappers.ListTimeS
 
 import com.google.api.MetricDescriptor;
 import com.google.api.MonitoredResourceDescriptor;
+import com.google.api.gax.core.ApiFuture;
 import com.google.api.gax.core.GoogleCredentialsProvider;
 import com.google.api.gax.core.PropertiesProvider;
 import com.google.api.gax.core.RetrySettings;
@@ -30,6 +31,7 @@ import com.google.api.gax.grpc.ClientSettings;
 import com.google.api.gax.grpc.ExecutorProvider;
 import com.google.api.gax.grpc.InstantiatingChannelProvider;
 import com.google.api.gax.grpc.InstantiatingExecutorProvider;
+import com.google.api.gax.grpc.PageContext;
 import com.google.api.gax.grpc.PagedCallSettings;
 import com.google.api.gax.grpc.PagedListDescriptor;
 import com.google.api.gax.grpc.PagedListResponseFactory;
@@ -388,15 +390,25 @@ public class MetricServiceSettings extends ClientSettings {
               ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
               ListMonitoredResourceDescriptorsPagedResponse>() {
             @Override
-            public ListMonitoredResourceDescriptorsPagedResponse createPagedListResponse(
+            public ApiFuture<ListMonitoredResourceDescriptorsPagedResponse> getFuturePagedResponse(
                 UnaryCallable<
                         ListMonitoredResourceDescriptorsRequest,
                         ListMonitoredResourceDescriptorsResponse>
                     callable,
                 ListMonitoredResourceDescriptorsRequest request,
-                CallContext context) {
-              return new ListMonitoredResourceDescriptorsPagedResponse(
-                  callable, LIST_MONITORED_RESOURCE_DESCRIPTORS_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListMonitoredResourceDescriptorsResponse> futureResponse) {
+              PageContext<
+                      ListMonitoredResourceDescriptorsRequest,
+                      ListMonitoredResourceDescriptorsResponse, MonitoredResourceDescriptor>
+                  pageContext =
+                      PageContext.create(
+                          callable,
+                          LIST_MONITORED_RESOURCE_DESCRIPTORS_PAGE_STR_DESC,
+                          request,
+                          context);
+              return ListMonitoredResourceDescriptorsPagedResponse.createAsync(
+                  pageContext, futureResponse);
             }
           };
 
@@ -408,12 +420,17 @@ public class MetricServiceSettings extends ClientSettings {
               ListMetricDescriptorsRequest, ListMetricDescriptorsResponse,
               ListMetricDescriptorsPagedResponse>() {
             @Override
-            public ListMetricDescriptorsPagedResponse createPagedListResponse(
+            public ApiFuture<ListMetricDescriptorsPagedResponse> getFuturePagedResponse(
                 UnaryCallable<ListMetricDescriptorsRequest, ListMetricDescriptorsResponse> callable,
                 ListMetricDescriptorsRequest request,
-                CallContext context) {
-              return new ListMetricDescriptorsPagedResponse(
-                  callable, LIST_METRIC_DESCRIPTORS_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListMetricDescriptorsResponse> futureResponse) {
+              PageContext<
+                      ListMetricDescriptorsRequest, ListMetricDescriptorsResponse, MetricDescriptor>
+                  pageContext =
+                      PageContext.create(
+                          callable, LIST_METRIC_DESCRIPTORS_PAGE_STR_DESC, request, context);
+              return ListMetricDescriptorsPagedResponse.createAsync(pageContext, futureResponse);
             }
           };
 
@@ -423,12 +440,14 @@ public class MetricServiceSettings extends ClientSettings {
           new PagedListResponseFactory<
               ListTimeSeriesRequest, ListTimeSeriesResponse, ListTimeSeriesPagedResponse>() {
             @Override
-            public ListTimeSeriesPagedResponse createPagedListResponse(
+            public ApiFuture<ListTimeSeriesPagedResponse> getFuturePagedResponse(
                 UnaryCallable<ListTimeSeriesRequest, ListTimeSeriesResponse> callable,
                 ListTimeSeriesRequest request,
-                CallContext context) {
-              return new ListTimeSeriesPagedResponse(
-                  callable, LIST_TIME_SERIES_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListTimeSeriesResponse> futureResponse) {
+              PageContext<ListTimeSeriesRequest, ListTimeSeriesResponse, TimeSeries> pageContext =
+                  PageContext.create(callable, LIST_TIME_SERIES_PAGE_STR_DESC, request, context);
+              return ListTimeSeriesPagedResponse.createAsync(pageContext, futureResponse);
             }
           };
 

@@ -17,6 +17,7 @@ package com.google.cloud.logging.spi.v2;
 
 import static com.google.cloud.logging.spi.v2.PagedResponseWrappers.ListSinksPagedResponse;
 
+import com.google.api.gax.core.ApiFuture;
 import com.google.api.gax.core.GoogleCredentialsProvider;
 import com.google.api.gax.core.PropertiesProvider;
 import com.google.api.gax.core.RetrySettings;
@@ -26,6 +27,7 @@ import com.google.api.gax.grpc.ClientSettings;
 import com.google.api.gax.grpc.ExecutorProvider;
 import com.google.api.gax.grpc.InstantiatingChannelProvider;
 import com.google.api.gax.grpc.InstantiatingExecutorProvider;
+import com.google.api.gax.grpc.PageContext;
 import com.google.api.gax.grpc.PagedCallSettings;
 import com.google.api.gax.grpc.PagedListDescriptor;
 import com.google.api.gax.grpc.PagedListResponseFactory;
@@ -246,12 +248,14 @@ public class ConfigSettings extends ClientSettings {
           new PagedListResponseFactory<
               ListSinksRequest, ListSinksResponse, ListSinksPagedResponse>() {
             @Override
-            public ListSinksPagedResponse createPagedListResponse(
+            public ApiFuture<ListSinksPagedResponse> getFuturePagedResponse(
                 UnaryCallable<ListSinksRequest, ListSinksResponse> callable,
                 ListSinksRequest request,
-                CallContext context) {
-              return new ListSinksPagedResponse(
-                  callable, LIST_SINKS_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListSinksResponse> futureResponse) {
+              PageContext<ListSinksRequest, ListSinksResponse, LogSink> pageContext =
+                  PageContext.create(callable, LIST_SINKS_PAGE_STR_DESC, request, context);
+              return ListSinksPagedResponse.createAsync(pageContext, futureResponse);
             }
           };
 

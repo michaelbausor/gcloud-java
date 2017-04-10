@@ -22,6 +22,7 @@ import static com.google.cloud.logging.spi.v2.PagedResponseWrappers.ListMonitore
 import com.google.api.MonitoredResourceDescriptor;
 import com.google.api.gax.batching.BatchingSettings;
 import com.google.api.gax.batching.RequestBuilder;
+import com.google.api.gax.core.ApiFuture;
 import com.google.api.gax.core.FlowControlSettings;
 import com.google.api.gax.core.FlowController.LimitExceededBehavior;
 import com.google.api.gax.core.GoogleCredentialsProvider;
@@ -36,6 +37,7 @@ import com.google.api.gax.grpc.ClientSettings;
 import com.google.api.gax.grpc.ExecutorProvider;
 import com.google.api.gax.grpc.InstantiatingChannelProvider;
 import com.google.api.gax.grpc.InstantiatingExecutorProvider;
+import com.google.api.gax.grpc.PageContext;
 import com.google.api.gax.grpc.PagedCallSettings;
 import com.google.api.gax.grpc.PagedListDescriptor;
 import com.google.api.gax.grpc.PagedListResponseFactory;
@@ -353,12 +355,14 @@ public class LoggingSettings extends ClientSettings {
           new PagedListResponseFactory<
               ListLogEntriesRequest, ListLogEntriesResponse, ListLogEntriesPagedResponse>() {
             @Override
-            public ListLogEntriesPagedResponse createPagedListResponse(
+            public ApiFuture<ListLogEntriesPagedResponse> getFuturePagedResponse(
                 UnaryCallable<ListLogEntriesRequest, ListLogEntriesResponse> callable,
                 ListLogEntriesRequest request,
-                CallContext context) {
-              return new ListLogEntriesPagedResponse(
-                  callable, LIST_LOG_ENTRIES_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListLogEntriesResponse> futureResponse) {
+              PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> pageContext =
+                  PageContext.create(callable, LIST_LOG_ENTRIES_PAGE_STR_DESC, request, context);
+              return ListLogEntriesPagedResponse.createAsync(pageContext, futureResponse);
             }
           };
 
@@ -370,15 +374,25 @@ public class LoggingSettings extends ClientSettings {
               ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
               ListMonitoredResourceDescriptorsPagedResponse>() {
             @Override
-            public ListMonitoredResourceDescriptorsPagedResponse createPagedListResponse(
+            public ApiFuture<ListMonitoredResourceDescriptorsPagedResponse> getFuturePagedResponse(
                 UnaryCallable<
                         ListMonitoredResourceDescriptorsRequest,
                         ListMonitoredResourceDescriptorsResponse>
                     callable,
                 ListMonitoredResourceDescriptorsRequest request,
-                CallContext context) {
-              return new ListMonitoredResourceDescriptorsPagedResponse(
-                  callable, LIST_MONITORED_RESOURCE_DESCRIPTORS_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListMonitoredResourceDescriptorsResponse> futureResponse) {
+              PageContext<
+                      ListMonitoredResourceDescriptorsRequest,
+                      ListMonitoredResourceDescriptorsResponse, MonitoredResourceDescriptor>
+                  pageContext =
+                      PageContext.create(
+                          callable,
+                          LIST_MONITORED_RESOURCE_DESCRIPTORS_PAGE_STR_DESC,
+                          request,
+                          context);
+              return ListMonitoredResourceDescriptorsPagedResponse.createAsync(
+                  pageContext, futureResponse);
             }
           };
 
@@ -387,11 +401,14 @@ public class LoggingSettings extends ClientSettings {
       LIST_LOGS_PAGE_STR_FACT =
           new PagedListResponseFactory<ListLogsRequest, ListLogsResponse, ListLogsPagedResponse>() {
             @Override
-            public ListLogsPagedResponse createPagedListResponse(
+            public ApiFuture<ListLogsPagedResponse> getFuturePagedResponse(
                 UnaryCallable<ListLogsRequest, ListLogsResponse> callable,
                 ListLogsRequest request,
-                CallContext context) {
-              return new ListLogsPagedResponse(callable, LIST_LOGS_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListLogsResponse> futureResponse) {
+              PageContext<ListLogsRequest, ListLogsResponse, String> pageContext =
+                  PageContext.create(callable, LIST_LOGS_PAGE_STR_DESC, request, context);
+              return ListLogsPagedResponse.createAsync(pageContext, futureResponse);
             }
           };
 

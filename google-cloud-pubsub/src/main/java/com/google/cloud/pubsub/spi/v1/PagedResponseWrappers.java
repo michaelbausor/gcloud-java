@@ -15,17 +15,15 @@
  */
 package com.google.cloud.pubsub.spi.v1;
 
-import com.google.api.gax.core.FixedSizeCollection;
-import com.google.api.gax.core.Page;
-import com.google.api.gax.core.PagedListResponse;
-import com.google.api.gax.grpc.CallContext;
+import com.google.api.gax.core.ApiFunction;
+import com.google.api.gax.core.ApiFuture;
+import com.google.api.gax.core.ApiFutures;
+import com.google.api.gax.grpc.AbstractFixedSizeCollection;
+import com.google.api.gax.grpc.AbstractPage;
+import com.google.api.gax.grpc.AbstractPagedListResponse;
 import com.google.api.gax.grpc.PageContext;
-import com.google.api.gax.grpc.PagedListDescriptor;
-import com.google.api.gax.grpc.PagedListResponseContext;
-import com.google.api.gax.grpc.UnaryCallable;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.protobuf.ExperimentalApi;
 import com.google.pubsub.v1.ListSnapshotsRequest;
 import com.google.pubsub.v1.ListSnapshotsResponse;
@@ -39,7 +37,7 @@ import com.google.pubsub.v1.Snapshot;
 import com.google.pubsub.v1.Subscription;
 import com.google.pubsub.v1.SubscriptionName;
 import com.google.pubsub.v1.Topic;
-import java.util.Iterator;
+import java.util.List;
 import javax.annotation.Generated;
 
 // AUTO-GENERATED DOCUMENTATION AND CLASS
@@ -52,154 +50,101 @@ import javax.annotation.Generated;
 @ExperimentalApi
 public class PagedResponseWrappers {
 
-  public static class ListTopicsPagedResponse implements PagedListResponse<Topic> {
+  public static class ListTopicsPagedResponse
+      extends AbstractPagedListResponse<
+          ListTopicsRequest, ListTopicsResponse, Topic, ListTopicsPage,
+          ListTopicsFixedSizeCollection> {
 
-    private final PagedListResponseContext<ListTopicsRequest, ListTopicsResponse, Topic> context;
-    private final ListTopicsPage page;
-
-    public ListTopicsPagedResponse(
-        UnaryCallable<ListTopicsRequest, ListTopicsResponse> callable,
-        PagedListDescriptor<ListTopicsRequest, ListTopicsResponse, Topic> pageDescriptor,
-        ListTopicsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListTopicsPage(this.context);
+    public static ApiFuture<ListTopicsPagedResponse> createAsync(
+        PageContext<ListTopicsRequest, ListTopicsResponse, Topic> context,
+        ApiFuture<ListTopicsResponse> futureResponse) {
+      ApiFuture<ListTopicsPage> futurePage =
+          ListTopicsPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListTopicsPage, ListTopicsPagedResponse>() {
+            @Override
+            public ListTopicsPagedResponse apply(ListTopicsPage input) {
+              return new ListTopicsPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<Topic> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<Topic> getPage() {
-      return page;
-    }
-
-    public Iterable<ListTopicsPage> iteratePages() {
-      return new Iterable<ListTopicsPage>() {
-        @Override
-        public Iterator<ListTopicsPage> iterator() {
-          return new PageContext.PageIterator<ListTopicsPage>(
-              new PageContext.PageFetcher<ListTopicsPage>() {
-                @Override
-                public ListTopicsPage getNextPage(ListTopicsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<Topic> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<Topic>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListTopicsPagedResponse(ListTopicsPage page) {
+      super(page, ListTopicsFixedSizeCollection.createEmptyCollection());
     }
   }
 
-  public static class ListTopicsPage implements Page<Topic> {
-    private final PageContext<ListTopicsRequest, ListTopicsResponse, Topic> context;
+  public static class ListTopicsPage
+      extends AbstractPage<ListTopicsRequest, ListTopicsResponse, Topic, ListTopicsPage> {
 
-    public ListTopicsPage(PageContext<ListTopicsRequest, ListTopicsResponse, Topic> context) {
-      this.context = context;
+    private ListTopicsPage(
+        PageContext<ListTopicsRequest, ListTopicsResponse, Topic> context,
+        ListTopicsResponse response) {
+      super(context, response);
+    }
+
+    private static ListTopicsPage createEmptyPage() {
+      return new ListTopicsPage(null, null);
     }
 
     @Override
-    public Iterator<Topic> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListTopicsPage createPage(
+        PageContext<ListTopicsRequest, ListTopicsResponse, Topic> context,
+        ListTopicsResponse response) {
+      return new ListTopicsPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
-    }
-
-    @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListTopicsPage getNextPage() {
-      return new ListTopicsPage(context.getNextPageContext());
-    }
-
-    public ListTopicsPage getNextPage(int pageSize) {
-      return new ListTopicsPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<Topic> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListTopicsResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListTopicsRequest getRequest() {
-      return context.getRequest();
+    protected ApiFuture<ListTopicsPage> createPageAsync(
+        PageContext<ListTopicsRequest, ListTopicsResponse, Topic> context,
+        ApiFuture<ListTopicsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
     }
   }
 
-  public static class ListTopicSubscriptionsPagedResponse implements PagedListResponse<String> {
+  public static class ListTopicsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListTopicsRequest, ListTopicsResponse, Topic, ListTopicsPage,
+          ListTopicsFixedSizeCollection> {
 
-    private final PagedListResponseContext<
-            ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String>
-        context;
-    private final ListTopicSubscriptionsPage page;
-
-    public ListTopicSubscriptionsPagedResponse(
-        UnaryCallable<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse> callable,
-        PagedListDescriptor<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String>
-            pageDescriptor,
-        ListTopicSubscriptionsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListTopicSubscriptionsPage(this.context);
+    private ListTopicsFixedSizeCollection(List<ListTopicsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
     }
 
-    public Iterable<String> iterateAll() {
-      return context.iterateAll();
+    private static ListTopicsFixedSizeCollection createEmptyCollection() {
+      return new ListTopicsFixedSizeCollection(null, 0);
     }
 
-    public Page<String> getPage() {
-      return page;
+    @Override
+    protected ListTopicsFixedSizeCollection createCollection(
+        List<ListTopicsPage> pages, int collectionSize) {
+      return new ListTopicsFixedSizeCollection(pages, collectionSize);
+    }
+  }
+
+  public static class ListTopicSubscriptionsPagedResponse
+      extends AbstractPagedListResponse<
+          ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String,
+          ListTopicSubscriptionsPage, ListTopicSubscriptionsFixedSizeCollection> {
+
+    public static ApiFuture<ListTopicSubscriptionsPagedResponse> createAsync(
+        PageContext<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String> context,
+        ApiFuture<ListTopicSubscriptionsResponse> futureResponse) {
+      ApiFuture<ListTopicSubscriptionsPage> futurePage =
+          ListTopicSubscriptionsPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListTopicSubscriptionsPage, ListTopicSubscriptionsPagedResponse>() {
+            @Override
+            public ListTopicSubscriptionsPagedResponse apply(ListTopicSubscriptionsPage input) {
+              return new ListTopicSubscriptionsPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<ListTopicSubscriptionsPage> iteratePages() {
-      return new Iterable<ListTopicSubscriptionsPage>() {
-        @Override
-        public Iterator<ListTopicSubscriptionsPage> iterator() {
-          return new PageContext.PageIterator<ListTopicSubscriptionsPage>(
-              new PageContext.PageFetcher<ListTopicSubscriptionsPage>() {
-                @Override
-                public ListTopicSubscriptionsPage getNextPage(
-                    ListTopicSubscriptionsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<String> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<String>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListTopicSubscriptionsPagedResponse(ListTopicSubscriptionsPage page) {
+      super(page, ListTopicSubscriptionsFixedSizeCollection.createEmptyCollection());
     }
 
     public Iterable<SubscriptionName> iterateAllAsSubscriptionName() {
@@ -214,51 +159,33 @@ public class PagedResponseWrappers {
     }
   }
 
-  public static class ListTopicSubscriptionsPage implements Page<String> {
-    private final PageContext<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String>
-        context;
+  public static class ListTopicSubscriptionsPage
+      extends AbstractPage<
+          ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String,
+          ListTopicSubscriptionsPage> {
 
-    public ListTopicSubscriptionsPage(
-        PageContext<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String>
-            context) {
-      this.context = context;
+    private ListTopicSubscriptionsPage(
+        PageContext<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String> context,
+        ListTopicSubscriptionsResponse response) {
+      super(context, response);
+    }
+
+    private static ListTopicSubscriptionsPage createEmptyPage() {
+      return new ListTopicSubscriptionsPage(null, null);
     }
 
     @Override
-    public Iterator<String> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListTopicSubscriptionsPage createPage(
+        PageContext<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String> context,
+        ListTopicSubscriptionsResponse response) {
+      return new ListTopicSubscriptionsPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
-    }
-
-    @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListTopicSubscriptionsPage getNextPage() {
-      return new ListTopicSubscriptionsPage(context.getNextPageContext());
-    }
-
-    public ListTopicSubscriptionsPage getNextPage(int pageSize) {
-      return new ListTopicSubscriptionsPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<String> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListTopicSubscriptionsResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListTopicSubscriptionsRequest getRequest() {
-      return context.getRequest();
+    protected ApiFuture<ListTopicSubscriptionsPage> createPageAsync(
+        PageContext<ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String> context,
+        ApiFuture<ListTopicSubscriptionsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
     }
 
     public Iterable<SubscriptionName> iterateAllAsSubscriptionName() {
@@ -271,205 +198,198 @@ public class PagedResponseWrappers {
             }
           });
     }
-  }
 
-  public static class ListSubscriptionsPagedResponse implements PagedListResponse<Subscription> {
-
-    private final PagedListResponseContext<
-            ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription>
-        context;
-    private final ListSubscriptionsPage page;
-
-    public ListSubscriptionsPagedResponse(
-        UnaryCallable<ListSubscriptionsRequest, ListSubscriptionsResponse> callable,
-        PagedListDescriptor<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription>
-            pageDescriptor,
-        ListSubscriptionsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListSubscriptionsPage(this.context);
-    }
-
-    public Iterable<Subscription> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<Subscription> getPage() {
-      return page;
-    }
-
-    public Iterable<ListSubscriptionsPage> iteratePages() {
-      return new Iterable<ListSubscriptionsPage>() {
-        @Override
-        public Iterator<ListSubscriptionsPage> iterator() {
-          return new PageContext.PageIterator<ListSubscriptionsPage>(
-              new PageContext.PageFetcher<ListSubscriptionsPage>() {
-                @Override
-                public ListSubscriptionsPage getNextPage(ListSubscriptionsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<Subscription> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<Subscription>> iterateFixedSizeCollections(
-        int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    public Iterable<SubscriptionName> getValuesAsSubscriptionName() {
+      return Iterables.transform(
+          getValues(),
+          new Function<String, SubscriptionName>() {
+            @Override
+            public SubscriptionName apply(String arg0) {
+              return SubscriptionName.parse(arg0);
+            }
+          });
     }
   }
 
-  public static class ListSubscriptionsPage implements Page<Subscription> {
-    private final PageContext<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription>
-        context;
+  public static class ListTopicSubscriptionsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListTopicSubscriptionsRequest, ListTopicSubscriptionsResponse, String,
+          ListTopicSubscriptionsPage, ListTopicSubscriptionsFixedSizeCollection> {
 
-    public ListSubscriptionsPage(
-        PageContext<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription> context) {
-      this.context = context;
+    private ListTopicSubscriptionsFixedSizeCollection(
+        List<ListTopicSubscriptionsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
+    }
+
+    private static ListTopicSubscriptionsFixedSizeCollection createEmptyCollection() {
+      return new ListTopicSubscriptionsFixedSizeCollection(null, 0);
     }
 
     @Override
-    public Iterator<Subscription> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListTopicSubscriptionsFixedSizeCollection createCollection(
+        List<ListTopicSubscriptionsPage> pages, int collectionSize) {
+      return new ListTopicSubscriptionsFixedSizeCollection(pages, collectionSize);
     }
 
-    @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
-    }
-
-    @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListSubscriptionsPage getNextPage() {
-      return new ListSubscriptionsPage(context.getNextPageContext());
-    }
-
-    public ListSubscriptionsPage getNextPage(int pageSize) {
-      return new ListSubscriptionsPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<Subscription> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListSubscriptionsResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListSubscriptionsRequest getRequest() {
-      return context.getRequest();
+    public Iterable<SubscriptionName> getValuesAsSubscriptionName() {
+      return Iterables.transform(
+          getValues(),
+          new Function<String, SubscriptionName>() {
+            @Override
+            public SubscriptionName apply(String arg0) {
+              return SubscriptionName.parse(arg0);
+            }
+          });
     }
   }
 
-  public static class ListSnapshotsPagedResponse implements PagedListResponse<Snapshot> {
+  public static class ListSubscriptionsPagedResponse
+      extends AbstractPagedListResponse<
+          ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription, ListSubscriptionsPage,
+          ListSubscriptionsFixedSizeCollection> {
 
-    private final PagedListResponseContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot>
-        context;
-    private final ListSnapshotsPage page;
-
-    public ListSnapshotsPagedResponse(
-        UnaryCallable<ListSnapshotsRequest, ListSnapshotsResponse> callable,
-        PagedListDescriptor<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> pageDescriptor,
-        ListSnapshotsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListSnapshotsPage(this.context);
+    public static ApiFuture<ListSubscriptionsPagedResponse> createAsync(
+        PageContext<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription> context,
+        ApiFuture<ListSubscriptionsResponse> futureResponse) {
+      ApiFuture<ListSubscriptionsPage> futurePage =
+          ListSubscriptionsPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListSubscriptionsPage, ListSubscriptionsPagedResponse>() {
+            @Override
+            public ListSubscriptionsPagedResponse apply(ListSubscriptionsPage input) {
+              return new ListSubscriptionsPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<Snapshot> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<Snapshot> getPage() {
-      return page;
-    }
-
-    public Iterable<ListSnapshotsPage> iteratePages() {
-      return new Iterable<ListSnapshotsPage>() {
-        @Override
-        public Iterator<ListSnapshotsPage> iterator() {
-          return new PageContext.PageIterator<ListSnapshotsPage>(
-              new PageContext.PageFetcher<ListSnapshotsPage>() {
-                @Override
-                public ListSnapshotsPage getNextPage(ListSnapshotsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<Snapshot> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<Snapshot>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListSubscriptionsPagedResponse(ListSubscriptionsPage page) {
+      super(page, ListSubscriptionsFixedSizeCollection.createEmptyCollection());
     }
   }
 
-  public static class ListSnapshotsPage implements Page<Snapshot> {
-    private final PageContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> context;
+  public static class ListSubscriptionsPage
+      extends AbstractPage<
+          ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription,
+          ListSubscriptionsPage> {
 
-    public ListSnapshotsPage(
-        PageContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> context) {
-      this.context = context;
+    private ListSubscriptionsPage(
+        PageContext<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription> context,
+        ListSubscriptionsResponse response) {
+      super(context, response);
+    }
+
+    private static ListSubscriptionsPage createEmptyPage() {
+      return new ListSubscriptionsPage(null, null);
     }
 
     @Override
-    public Iterator<Snapshot> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListSubscriptionsPage createPage(
+        PageContext<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription> context,
+        ListSubscriptionsResponse response) {
+      return new ListSubscriptionsPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
+    protected ApiFuture<ListSubscriptionsPage> createPageAsync(
+        PageContext<ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription> context,
+        ApiFuture<ListSubscriptionsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
+    }
+  }
+
+  public static class ListSubscriptionsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListSubscriptionsRequest, ListSubscriptionsResponse, Subscription, ListSubscriptionsPage,
+          ListSubscriptionsFixedSizeCollection> {
+
+    private ListSubscriptionsFixedSizeCollection(
+        List<ListSubscriptionsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
+    }
+
+    private static ListSubscriptionsFixedSizeCollection createEmptyCollection() {
+      return new ListSubscriptionsFixedSizeCollection(null, 0);
     }
 
     @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
+    protected ListSubscriptionsFixedSizeCollection createCollection(
+        List<ListSubscriptionsPage> pages, int collectionSize) {
+      return new ListSubscriptionsFixedSizeCollection(pages, collectionSize);
+    }
+  }
+
+  public static class ListSnapshotsPagedResponse
+      extends AbstractPagedListResponse<
+          ListSnapshotsRequest, ListSnapshotsResponse, Snapshot, ListSnapshotsPage,
+          ListSnapshotsFixedSizeCollection> {
+
+    public static ApiFuture<ListSnapshotsPagedResponse> createAsync(
+        PageContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> context,
+        ApiFuture<ListSnapshotsResponse> futureResponse) {
+      ApiFuture<ListSnapshotsPage> futurePage =
+          ListSnapshotsPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListSnapshotsPage, ListSnapshotsPagedResponse>() {
+            @Override
+            public ListSnapshotsPagedResponse apply(ListSnapshotsPage input) {
+              return new ListSnapshotsPagedResponse(input);
+            }
+          });
+    }
+
+    private ListSnapshotsPagedResponse(ListSnapshotsPage page) {
+      super(page, ListSnapshotsFixedSizeCollection.createEmptyCollection());
+    }
+  }
+
+  public static class ListSnapshotsPage
+      extends AbstractPage<
+          ListSnapshotsRequest, ListSnapshotsResponse, Snapshot, ListSnapshotsPage> {
+
+    private ListSnapshotsPage(
+        PageContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> context,
+        ListSnapshotsResponse response) {
+      super(context, response);
+    }
+
+    private static ListSnapshotsPage createEmptyPage() {
+      return new ListSnapshotsPage(null, null);
     }
 
     @Override
-    public ListSnapshotsPage getNextPage() {
-      return new ListSnapshotsPage(context.getNextPageContext());
-    }
-
-    public ListSnapshotsPage getNextPage(int pageSize) {
-      return new ListSnapshotsPage(context.getNextPageContext(pageSize));
+    protected ListSnapshotsPage createPage(
+        PageContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> context,
+        ListSnapshotsResponse response) {
+      return new ListSnapshotsPage(context, response);
     }
 
     @Override
-    public Iterable<Snapshot> iterateAll() {
-      return context.iterateAll();
+    protected ApiFuture<ListSnapshotsPage> createPageAsync(
+        PageContext<ListSnapshotsRequest, ListSnapshotsResponse, Snapshot> context,
+        ApiFuture<ListSnapshotsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
+    }
+  }
+
+  public static class ListSnapshotsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListSnapshotsRequest, ListSnapshotsResponse, Snapshot, ListSnapshotsPage,
+          ListSnapshotsFixedSizeCollection> {
+
+    private ListSnapshotsFixedSizeCollection(List<ListSnapshotsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
     }
 
-    public ListSnapshotsResponse getResponse() {
-      return context.getResponse();
+    private static ListSnapshotsFixedSizeCollection createEmptyCollection() {
+      return new ListSnapshotsFixedSizeCollection(null, 0);
     }
 
-    public ListSnapshotsRequest getRequest() {
-      return context.getRequest();
+    @Override
+    protected ListSnapshotsFixedSizeCollection createCollection(
+        List<ListSnapshotsPage> pages, int collectionSize) {
+      return new ListSnapshotsFixedSizeCollection(pages, collectionSize);
     }
   }
 }

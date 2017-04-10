@@ -16,14 +16,13 @@
 package com.google.cloud.logging.spi.v2;
 
 import com.google.api.MonitoredResourceDescriptor;
-import com.google.api.gax.core.FixedSizeCollection;
-import com.google.api.gax.core.Page;
-import com.google.api.gax.core.PagedListResponse;
-import com.google.api.gax.grpc.CallContext;
+import com.google.api.gax.core.ApiFunction;
+import com.google.api.gax.core.ApiFuture;
+import com.google.api.gax.core.ApiFutures;
+import com.google.api.gax.grpc.AbstractFixedSizeCollection;
+import com.google.api.gax.grpc.AbstractPage;
+import com.google.api.gax.grpc.AbstractPagedListResponse;
 import com.google.api.gax.grpc.PageContext;
-import com.google.api.gax.grpc.PagedListDescriptor;
-import com.google.api.gax.grpc.PagedListResponseContext;
-import com.google.api.gax.grpc.UnaryCallable;
 import com.google.logging.v2.ListLogEntriesRequest;
 import com.google.logging.v2.ListLogEntriesResponse;
 import com.google.logging.v2.ListLogMetricsRequest;
@@ -38,7 +37,7 @@ import com.google.logging.v2.LogEntry;
 import com.google.logging.v2.LogMetric;
 import com.google.logging.v2.LogSink;
 import com.google.protobuf.ExperimentalApi;
-import java.util.Iterator;
+import java.util.List;
 import javax.annotation.Generated;
 
 // AUTO-GENERATED DOCUMENTATION AND CLASS
@@ -51,509 +50,388 @@ import javax.annotation.Generated;
 @ExperimentalApi
 public class PagedResponseWrappers {
 
-  public static class ListLogEntriesPagedResponse implements PagedListResponse<LogEntry> {
+  public static class ListLogEntriesPagedResponse
+      extends AbstractPagedListResponse<
+          ListLogEntriesRequest, ListLogEntriesResponse, LogEntry, ListLogEntriesPage,
+          ListLogEntriesFixedSizeCollection> {
 
-    private final PagedListResponseContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry>
-        context;
-    private final ListLogEntriesPage page;
-
-    public ListLogEntriesPagedResponse(
-        UnaryCallable<ListLogEntriesRequest, ListLogEntriesResponse> callable,
-        PagedListDescriptor<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> pageDescriptor,
-        ListLogEntriesRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListLogEntriesPage(this.context);
+    public static ApiFuture<ListLogEntriesPagedResponse> createAsync(
+        PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> context,
+        ApiFuture<ListLogEntriesResponse> futureResponse) {
+      ApiFuture<ListLogEntriesPage> futurePage =
+          ListLogEntriesPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListLogEntriesPage, ListLogEntriesPagedResponse>() {
+            @Override
+            public ListLogEntriesPagedResponse apply(ListLogEntriesPage input) {
+              return new ListLogEntriesPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<LogEntry> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<LogEntry> getPage() {
-      return page;
-    }
-
-    public Iterable<ListLogEntriesPage> iteratePages() {
-      return new Iterable<ListLogEntriesPage>() {
-        @Override
-        public Iterator<ListLogEntriesPage> iterator() {
-          return new PageContext.PageIterator<ListLogEntriesPage>(
-              new PageContext.PageFetcher<ListLogEntriesPage>() {
-                @Override
-                public ListLogEntriesPage getNextPage(ListLogEntriesPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<LogEntry> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<LogEntry>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListLogEntriesPagedResponse(ListLogEntriesPage page) {
+      super(page, ListLogEntriesFixedSizeCollection.createEmptyCollection());
     }
   }
 
-  public static class ListLogEntriesPage implements Page<LogEntry> {
-    private final PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> context;
+  public static class ListLogEntriesPage
+      extends AbstractPage<
+          ListLogEntriesRequest, ListLogEntriesResponse, LogEntry, ListLogEntriesPage> {
 
-    public ListLogEntriesPage(
-        PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> context) {
-      this.context = context;
+    private ListLogEntriesPage(
+        PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> context,
+        ListLogEntriesResponse response) {
+      super(context, response);
+    }
+
+    private static ListLogEntriesPage createEmptyPage() {
+      return new ListLogEntriesPage(null, null);
     }
 
     @Override
-    public Iterator<LogEntry> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListLogEntriesPage createPage(
+        PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> context,
+        ListLogEntriesResponse response) {
+      return new ListLogEntriesPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
+    protected ApiFuture<ListLogEntriesPage> createPageAsync(
+        PageContext<ListLogEntriesRequest, ListLogEntriesResponse, LogEntry> context,
+        ApiFuture<ListLogEntriesResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
+    }
+  }
+
+  public static class ListLogEntriesFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListLogEntriesRequest, ListLogEntriesResponse, LogEntry, ListLogEntriesPage,
+          ListLogEntriesFixedSizeCollection> {
+
+    private ListLogEntriesFixedSizeCollection(List<ListLogEntriesPage> pages, int collectionSize) {
+      super(pages, collectionSize);
+    }
+
+    private static ListLogEntriesFixedSizeCollection createEmptyCollection() {
+      return new ListLogEntriesFixedSizeCollection(null, 0);
     }
 
     @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListLogEntriesPage getNextPage() {
-      return new ListLogEntriesPage(context.getNextPageContext());
-    }
-
-    public ListLogEntriesPage getNextPage(int pageSize) {
-      return new ListLogEntriesPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<LogEntry> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListLogEntriesResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListLogEntriesRequest getRequest() {
-      return context.getRequest();
+    protected ListLogEntriesFixedSizeCollection createCollection(
+        List<ListLogEntriesPage> pages, int collectionSize) {
+      return new ListLogEntriesFixedSizeCollection(pages, collectionSize);
     }
   }
 
   public static class ListMonitoredResourceDescriptorsPagedResponse
-      implements PagedListResponse<MonitoredResourceDescriptor> {
+      extends AbstractPagedListResponse<
+          ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
+          MonitoredResourceDescriptor, ListMonitoredResourceDescriptorsPage,
+          ListMonitoredResourceDescriptorsFixedSizeCollection> {
 
-    private final PagedListResponseContext<
-            ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
-            MonitoredResourceDescriptor>
-        context;
-    private final ListMonitoredResourceDescriptorsPage page;
-
-    public ListMonitoredResourceDescriptorsPagedResponse(
-        UnaryCallable<
-                ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse>
-            callable,
-        PagedListDescriptor<
+    public static ApiFuture<ListMonitoredResourceDescriptorsPagedResponse> createAsync(
+        PageContext<
                 ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
                 MonitoredResourceDescriptor>
-            pageDescriptor,
-        ListMonitoredResourceDescriptorsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListMonitoredResourceDescriptorsPage(this.context);
+            context,
+        ApiFuture<ListMonitoredResourceDescriptorsResponse> futureResponse) {
+      ApiFuture<ListMonitoredResourceDescriptorsPage> futurePage =
+          ListMonitoredResourceDescriptorsPage.createEmptyPage()
+              .createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<
+              ListMonitoredResourceDescriptorsPage,
+              ListMonitoredResourceDescriptorsPagedResponse>() {
+            @Override
+            public ListMonitoredResourceDescriptorsPagedResponse apply(
+                ListMonitoredResourceDescriptorsPage input) {
+              return new ListMonitoredResourceDescriptorsPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<MonitoredResourceDescriptor> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<MonitoredResourceDescriptor> getPage() {
-      return page;
-    }
-
-    public Iterable<ListMonitoredResourceDescriptorsPage> iteratePages() {
-      return new Iterable<ListMonitoredResourceDescriptorsPage>() {
-        @Override
-        public Iterator<ListMonitoredResourceDescriptorsPage> iterator() {
-          return new PageContext.PageIterator<ListMonitoredResourceDescriptorsPage>(
-              new PageContext.PageFetcher<ListMonitoredResourceDescriptorsPage>() {
-                @Override
-                public ListMonitoredResourceDescriptorsPage getNextPage(
-                    ListMonitoredResourceDescriptorsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<MonitoredResourceDescriptor> expandToFixedSizeCollection(
-        int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<MonitoredResourceDescriptor>> iterateFixedSizeCollections(
-        int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListMonitoredResourceDescriptorsPagedResponse(
+        ListMonitoredResourceDescriptorsPage page) {
+      super(page, ListMonitoredResourceDescriptorsFixedSizeCollection.createEmptyCollection());
     }
   }
 
   public static class ListMonitoredResourceDescriptorsPage
-      implements Page<MonitoredResourceDescriptor> {
-    private final PageContext<
-            ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
-            MonitoredResourceDescriptor>
-        context;
+      extends AbstractPage<
+          ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
+          MonitoredResourceDescriptor, ListMonitoredResourceDescriptorsPage> {
 
-    public ListMonitoredResourceDescriptorsPage(
+    private ListMonitoredResourceDescriptorsPage(
         PageContext<
                 ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
                 MonitoredResourceDescriptor>
-            context) {
-      this.context = context;
+            context,
+        ListMonitoredResourceDescriptorsResponse response) {
+      super(context, response);
+    }
+
+    private static ListMonitoredResourceDescriptorsPage createEmptyPage() {
+      return new ListMonitoredResourceDescriptorsPage(null, null);
     }
 
     @Override
-    public Iterator<MonitoredResourceDescriptor> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListMonitoredResourceDescriptorsPage createPage(
+        PageContext<
+                ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
+                MonitoredResourceDescriptor>
+            context,
+        ListMonitoredResourceDescriptorsResponse response) {
+      return new ListMonitoredResourceDescriptorsPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
-    }
-
-    @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListMonitoredResourceDescriptorsPage getNextPage() {
-      return new ListMonitoredResourceDescriptorsPage(context.getNextPageContext());
-    }
-
-    public ListMonitoredResourceDescriptorsPage getNextPage(int pageSize) {
-      return new ListMonitoredResourceDescriptorsPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<MonitoredResourceDescriptor> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListMonitoredResourceDescriptorsResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListMonitoredResourceDescriptorsRequest getRequest() {
-      return context.getRequest();
+    protected ApiFuture<ListMonitoredResourceDescriptorsPage> createPageAsync(
+        PageContext<
+                ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
+                MonitoredResourceDescriptor>
+            context,
+        ApiFuture<ListMonitoredResourceDescriptorsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
     }
   }
 
-  public static class ListLogsPagedResponse implements PagedListResponse<String> {
+  public static class ListMonitoredResourceDescriptorsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListMonitoredResourceDescriptorsRequest, ListMonitoredResourceDescriptorsResponse,
+          MonitoredResourceDescriptor, ListMonitoredResourceDescriptorsPage,
+          ListMonitoredResourceDescriptorsFixedSizeCollection> {
 
-    private final PagedListResponseContext<ListLogsRequest, ListLogsResponse, String> context;
-    private final ListLogsPage page;
-
-    public ListLogsPagedResponse(
-        UnaryCallable<ListLogsRequest, ListLogsResponse> callable,
-        PagedListDescriptor<ListLogsRequest, ListLogsResponse, String> pageDescriptor,
-        ListLogsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListLogsPage(this.context);
+    private ListMonitoredResourceDescriptorsFixedSizeCollection(
+        List<ListMonitoredResourceDescriptorsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
     }
 
-    public Iterable<String> iterateAll() {
-      return context.iterateAll();
+    private static ListMonitoredResourceDescriptorsFixedSizeCollection createEmptyCollection() {
+      return new ListMonitoredResourceDescriptorsFixedSizeCollection(null, 0);
     }
 
-    public Page<String> getPage() {
-      return page;
-    }
-
-    public Iterable<ListLogsPage> iteratePages() {
-      return new Iterable<ListLogsPage>() {
-        @Override
-        public Iterator<ListLogsPage> iterator() {
-          return new PageContext.PageIterator<ListLogsPage>(
-              new PageContext.PageFetcher<ListLogsPage>() {
-                @Override
-                public ListLogsPage getNextPage(ListLogsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<String> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<String>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    @Override
+    protected ListMonitoredResourceDescriptorsFixedSizeCollection createCollection(
+        List<ListMonitoredResourceDescriptorsPage> pages, int collectionSize) {
+      return new ListMonitoredResourceDescriptorsFixedSizeCollection(pages, collectionSize);
     }
   }
 
-  public static class ListLogsPage implements Page<String> {
-    private final PageContext<ListLogsRequest, ListLogsResponse, String> context;
+  public static class ListLogsPagedResponse
+      extends AbstractPagedListResponse<
+          ListLogsRequest, ListLogsResponse, String, ListLogsPage, ListLogsFixedSizeCollection> {
 
-    public ListLogsPage(PageContext<ListLogsRequest, ListLogsResponse, String> context) {
-      this.context = context;
+    public static ApiFuture<ListLogsPagedResponse> createAsync(
+        PageContext<ListLogsRequest, ListLogsResponse, String> context,
+        ApiFuture<ListLogsResponse> futureResponse) {
+      ApiFuture<ListLogsPage> futurePage =
+          ListLogsPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListLogsPage, ListLogsPagedResponse>() {
+            @Override
+            public ListLogsPagedResponse apply(ListLogsPage input) {
+              return new ListLogsPagedResponse(input);
+            }
+          });
     }
 
-    @Override
-    public Iterator<String> iterator() {
-      return context.getResourceIterable().iterator();
-    }
-
-    @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
-    }
-
-    @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListLogsPage getNextPage() {
-      return new ListLogsPage(context.getNextPageContext());
-    }
-
-    public ListLogsPage getNextPage(int pageSize) {
-      return new ListLogsPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<String> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListLogsResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListLogsRequest getRequest() {
-      return context.getRequest();
+    private ListLogsPagedResponse(ListLogsPage page) {
+      super(page, ListLogsFixedSizeCollection.createEmptyCollection());
     }
   }
 
-  public static class ListSinksPagedResponse implements PagedListResponse<LogSink> {
+  public static class ListLogsPage
+      extends AbstractPage<ListLogsRequest, ListLogsResponse, String, ListLogsPage> {
 
-    private final PagedListResponseContext<ListSinksRequest, ListSinksResponse, LogSink> context;
-    private final ListSinksPage page;
-
-    public ListSinksPagedResponse(
-        UnaryCallable<ListSinksRequest, ListSinksResponse> callable,
-        PagedListDescriptor<ListSinksRequest, ListSinksResponse, LogSink> pageDescriptor,
-        ListSinksRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListSinksPage(this.context);
+    private ListLogsPage(
+        PageContext<ListLogsRequest, ListLogsResponse, String> context, ListLogsResponse response) {
+      super(context, response);
     }
 
-    public Iterable<LogSink> iterateAll() {
-      return context.iterateAll();
+    private static ListLogsPage createEmptyPage() {
+      return new ListLogsPage(null, null);
     }
 
-    public Page<LogSink> getPage() {
-      return page;
+    @Override
+    protected ListLogsPage createPage(
+        PageContext<ListLogsRequest, ListLogsResponse, String> context, ListLogsResponse response) {
+      return new ListLogsPage(context, response);
     }
 
-    public Iterable<ListSinksPage> iteratePages() {
-      return new Iterable<ListSinksPage>() {
-        @Override
-        public Iterator<ListSinksPage> iterator() {
-          return new PageContext.PageIterator<ListSinksPage>(
-              new PageContext.PageFetcher<ListSinksPage>() {
-                @Override
-                public ListSinksPage getNextPage(ListSinksPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<LogSink> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<LogSink>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    @Override
+    protected ApiFuture<ListLogsPage> createPageAsync(
+        PageContext<ListLogsRequest, ListLogsResponse, String> context,
+        ApiFuture<ListLogsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
     }
   }
 
-  public static class ListSinksPage implements Page<LogSink> {
-    private final PageContext<ListSinksRequest, ListSinksResponse, LogSink> context;
+  public static class ListLogsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListLogsRequest, ListLogsResponse, String, ListLogsPage, ListLogsFixedSizeCollection> {
 
-    public ListSinksPage(PageContext<ListSinksRequest, ListSinksResponse, LogSink> context) {
-      this.context = context;
+    private ListLogsFixedSizeCollection(List<ListLogsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
+    }
+
+    private static ListLogsFixedSizeCollection createEmptyCollection() {
+      return new ListLogsFixedSizeCollection(null, 0);
     }
 
     @Override
-    public Iterator<LogSink> iterator() {
-      return context.getResourceIterable().iterator();
-    }
-
-    @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
-    }
-
-    @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListSinksPage getNextPage() {
-      return new ListSinksPage(context.getNextPageContext());
-    }
-
-    public ListSinksPage getNextPage(int pageSize) {
-      return new ListSinksPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<LogSink> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListSinksResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListSinksRequest getRequest() {
-      return context.getRequest();
+    protected ListLogsFixedSizeCollection createCollection(
+        List<ListLogsPage> pages, int collectionSize) {
+      return new ListLogsFixedSizeCollection(pages, collectionSize);
     }
   }
 
-  public static class ListLogMetricsPagedResponse implements PagedListResponse<LogMetric> {
+  public static class ListSinksPagedResponse
+      extends AbstractPagedListResponse<
+          ListSinksRequest, ListSinksResponse, LogSink, ListSinksPage,
+          ListSinksFixedSizeCollection> {
 
-    private final PagedListResponseContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric>
-        context;
-    private final ListLogMetricsPage page;
-
-    public ListLogMetricsPagedResponse(
-        UnaryCallable<ListLogMetricsRequest, ListLogMetricsResponse> callable,
-        PagedListDescriptor<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric>
-            pageDescriptor,
-        ListLogMetricsRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListLogMetricsPage(this.context);
+    public static ApiFuture<ListSinksPagedResponse> createAsync(
+        PageContext<ListSinksRequest, ListSinksResponse, LogSink> context,
+        ApiFuture<ListSinksResponse> futureResponse) {
+      ApiFuture<ListSinksPage> futurePage =
+          ListSinksPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListSinksPage, ListSinksPagedResponse>() {
+            @Override
+            public ListSinksPagedResponse apply(ListSinksPage input) {
+              return new ListSinksPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<LogMetric> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<LogMetric> getPage() {
-      return page;
-    }
-
-    public Iterable<ListLogMetricsPage> iteratePages() {
-      return new Iterable<ListLogMetricsPage>() {
-        @Override
-        public Iterator<ListLogMetricsPage> iterator() {
-          return new PageContext.PageIterator<ListLogMetricsPage>(
-              new PageContext.PageFetcher<ListLogMetricsPage>() {
-                @Override
-                public ListLogMetricsPage getNextPage(ListLogMetricsPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<LogMetric> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<LogMetric>> iterateFixedSizeCollections(
-        int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListSinksPagedResponse(ListSinksPage page) {
+      super(page, ListSinksFixedSizeCollection.createEmptyCollection());
     }
   }
 
-  public static class ListLogMetricsPage implements Page<LogMetric> {
-    private final PageContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric> context;
+  public static class ListSinksPage
+      extends AbstractPage<ListSinksRequest, ListSinksResponse, LogSink, ListSinksPage> {
 
-    public ListLogMetricsPage(
-        PageContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric> context) {
-      this.context = context;
+    private ListSinksPage(
+        PageContext<ListSinksRequest, ListSinksResponse, LogSink> context,
+        ListSinksResponse response) {
+      super(context, response);
+    }
+
+    private static ListSinksPage createEmptyPage() {
+      return new ListSinksPage(null, null);
     }
 
     @Override
-    public Iterator<LogMetric> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListSinksPage createPage(
+        PageContext<ListSinksRequest, ListSinksResponse, LogSink> context,
+        ListSinksResponse response) {
+      return new ListSinksPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
+    protected ApiFuture<ListSinksPage> createPageAsync(
+        PageContext<ListSinksRequest, ListSinksResponse, LogSink> context,
+        ApiFuture<ListSinksResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
+    }
+  }
+
+  public static class ListSinksFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListSinksRequest, ListSinksResponse, LogSink, ListSinksPage,
+          ListSinksFixedSizeCollection> {
+
+    private ListSinksFixedSizeCollection(List<ListSinksPage> pages, int collectionSize) {
+      super(pages, collectionSize);
+    }
+
+    private static ListSinksFixedSizeCollection createEmptyCollection() {
+      return new ListSinksFixedSizeCollection(null, 0);
     }
 
     @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
+    protected ListSinksFixedSizeCollection createCollection(
+        List<ListSinksPage> pages, int collectionSize) {
+      return new ListSinksFixedSizeCollection(pages, collectionSize);
+    }
+  }
+
+  public static class ListLogMetricsPagedResponse
+      extends AbstractPagedListResponse<
+          ListLogMetricsRequest, ListLogMetricsResponse, LogMetric, ListLogMetricsPage,
+          ListLogMetricsFixedSizeCollection> {
+
+    public static ApiFuture<ListLogMetricsPagedResponse> createAsync(
+        PageContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric> context,
+        ApiFuture<ListLogMetricsResponse> futureResponse) {
+      ApiFuture<ListLogMetricsPage> futurePage =
+          ListLogMetricsPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListLogMetricsPage, ListLogMetricsPagedResponse>() {
+            @Override
+            public ListLogMetricsPagedResponse apply(ListLogMetricsPage input) {
+              return new ListLogMetricsPagedResponse(input);
+            }
+          });
+    }
+
+    private ListLogMetricsPagedResponse(ListLogMetricsPage page) {
+      super(page, ListLogMetricsFixedSizeCollection.createEmptyCollection());
+    }
+  }
+
+  public static class ListLogMetricsPage
+      extends AbstractPage<
+          ListLogMetricsRequest, ListLogMetricsResponse, LogMetric, ListLogMetricsPage> {
+
+    private ListLogMetricsPage(
+        PageContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric> context,
+        ListLogMetricsResponse response) {
+      super(context, response);
+    }
+
+    private static ListLogMetricsPage createEmptyPage() {
+      return new ListLogMetricsPage(null, null);
     }
 
     @Override
-    public ListLogMetricsPage getNextPage() {
-      return new ListLogMetricsPage(context.getNextPageContext());
-    }
-
-    public ListLogMetricsPage getNextPage(int pageSize) {
-      return new ListLogMetricsPage(context.getNextPageContext(pageSize));
+    protected ListLogMetricsPage createPage(
+        PageContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric> context,
+        ListLogMetricsResponse response) {
+      return new ListLogMetricsPage(context, response);
     }
 
     @Override
-    public Iterable<LogMetric> iterateAll() {
-      return context.iterateAll();
+    protected ApiFuture<ListLogMetricsPage> createPageAsync(
+        PageContext<ListLogMetricsRequest, ListLogMetricsResponse, LogMetric> context,
+        ApiFuture<ListLogMetricsResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
+    }
+  }
+
+  public static class ListLogMetricsFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListLogMetricsRequest, ListLogMetricsResponse, LogMetric, ListLogMetricsPage,
+          ListLogMetricsFixedSizeCollection> {
+
+    private ListLogMetricsFixedSizeCollection(List<ListLogMetricsPage> pages, int collectionSize) {
+      super(pages, collectionSize);
     }
 
-    public ListLogMetricsResponse getResponse() {
-      return context.getResponse();
+    private static ListLogMetricsFixedSizeCollection createEmptyCollection() {
+      return new ListLogMetricsFixedSizeCollection(null, 0);
     }
 
-    public ListLogMetricsRequest getRequest() {
-      return context.getRequest();
+    @Override
+    protected ListLogMetricsFixedSizeCollection createCollection(
+        List<ListLogMetricsPage> pages, int collectionSize) {
+      return new ListLogMetricsFixedSizeCollection(pages, collectionSize);
     }
   }
 }

@@ -17,6 +17,7 @@ package com.google.cloud.trace.spi.v1;
 
 import static com.google.cloud.trace.spi.v1.PagedResponseWrappers.ListTracesPagedResponse;
 
+import com.google.api.gax.core.ApiFuture;
 import com.google.api.gax.core.GoogleCredentialsProvider;
 import com.google.api.gax.core.PropertiesProvider;
 import com.google.api.gax.core.RetrySettings;
@@ -26,6 +27,7 @@ import com.google.api.gax.grpc.ClientSettings;
 import com.google.api.gax.grpc.ExecutorProvider;
 import com.google.api.gax.grpc.InstantiatingChannelProvider;
 import com.google.api.gax.grpc.InstantiatingExecutorProvider;
+import com.google.api.gax.grpc.PageContext;
 import com.google.api.gax.grpc.PagedCallSettings;
 import com.google.api.gax.grpc.PagedListDescriptor;
 import com.google.api.gax.grpc.PagedListResponseFactory;
@@ -231,12 +233,14 @@ public class TraceServiceSettings extends ClientSettings {
           new PagedListResponseFactory<
               ListTracesRequest, ListTracesResponse, ListTracesPagedResponse>() {
             @Override
-            public ListTracesPagedResponse createPagedListResponse(
+            public ApiFuture<ListTracesPagedResponse> getFuturePagedResponse(
                 UnaryCallable<ListTracesRequest, ListTracesResponse> callable,
                 ListTracesRequest request,
-                CallContext context) {
-              return new ListTracesPagedResponse(
-                  callable, LIST_TRACES_PAGE_STR_DESC, request, context);
+                CallContext context,
+                ApiFuture<ListTracesResponse> futureResponse) {
+              PageContext<ListTracesRequest, ListTracesResponse, Trace> pageContext =
+                  PageContext.create(callable, LIST_TRACES_PAGE_STR_DESC, request, context);
+              return ListTracesPagedResponse.createAsync(pageContext, futureResponse);
             }
           };
 

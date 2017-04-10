@@ -15,19 +15,18 @@
  */
 package com.google.cloud.trace.spi.v1;
 
-import com.google.api.gax.core.FixedSizeCollection;
-import com.google.api.gax.core.Page;
-import com.google.api.gax.core.PagedListResponse;
-import com.google.api.gax.grpc.CallContext;
+import com.google.api.gax.core.ApiFunction;
+import com.google.api.gax.core.ApiFuture;
+import com.google.api.gax.core.ApiFutures;
+import com.google.api.gax.grpc.AbstractFixedSizeCollection;
+import com.google.api.gax.grpc.AbstractPage;
+import com.google.api.gax.grpc.AbstractPagedListResponse;
 import com.google.api.gax.grpc.PageContext;
-import com.google.api.gax.grpc.PagedListDescriptor;
-import com.google.api.gax.grpc.PagedListResponseContext;
-import com.google.api.gax.grpc.UnaryCallable;
 import com.google.devtools.cloudtrace.v1.ListTracesRequest;
 import com.google.devtools.cloudtrace.v1.ListTracesResponse;
 import com.google.devtools.cloudtrace.v1.Trace;
 import com.google.protobuf.ExperimentalApi;
-import java.util.Iterator;
+import java.util.List;
 import javax.annotation.Generated;
 
 // AUTO-GENERATED DOCUMENTATION AND CLASS
@@ -40,99 +39,76 @@ import javax.annotation.Generated;
 @ExperimentalApi
 public class PagedResponseWrappers {
 
-  public static class ListTracesPagedResponse implements PagedListResponse<Trace> {
+  public static class ListTracesPagedResponse
+      extends AbstractPagedListResponse<
+          ListTracesRequest, ListTracesResponse, Trace, ListTracesPage,
+          ListTracesFixedSizeCollection> {
 
-    private final PagedListResponseContext<ListTracesRequest, ListTracesResponse, Trace> context;
-    private final ListTracesPage page;
-
-    public ListTracesPagedResponse(
-        UnaryCallable<ListTracesRequest, ListTracesResponse> callable,
-        PagedListDescriptor<ListTracesRequest, ListTracesResponse, Trace> pageDescriptor,
-        ListTracesRequest request,
-        CallContext callContext) {
-      this.context = new PagedListResponseContext<>(callable, pageDescriptor, request, callContext);
-      this.page = new ListTracesPage(this.context);
+    public static ApiFuture<ListTracesPagedResponse> createAsync(
+        PageContext<ListTracesRequest, ListTracesResponse, Trace> context,
+        ApiFuture<ListTracesResponse> futureResponse) {
+      ApiFuture<ListTracesPage> futurePage =
+          ListTracesPage.createEmptyPage().createPageAsync(context, futureResponse);
+      return ApiFutures.transform(
+          futurePage,
+          new ApiFunction<ListTracesPage, ListTracesPagedResponse>() {
+            @Override
+            public ListTracesPagedResponse apply(ListTracesPage input) {
+              return new ListTracesPagedResponse(input);
+            }
+          });
     }
 
-    public Iterable<Trace> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public Page<Trace> getPage() {
-      return page;
-    }
-
-    public Iterable<ListTracesPage> iteratePages() {
-      return new Iterable<ListTracesPage>() {
-        @Override
-        public Iterator<ListTracesPage> iterator() {
-          return new PageContext.PageIterator<ListTracesPage>(
-              new PageContext.PageFetcher<ListTracesPage>() {
-                @Override
-                public ListTracesPage getNextPage(ListTracesPage currentPage) {
-                  return currentPage.getNextPage();
-                }
-              },
-              page);
-        }
-      };
-    }
-
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    public FixedSizeCollection<Trace> expandToFixedSizeCollection(int collectionSize) {
-      return context.expandToFixedSizeCollection(collectionSize);
-    }
-
-    public Iterable<FixedSizeCollection<Trace>> iterateFixedSizeCollections(int collectionSize) {
-      return context.iterateFixedSizeCollections(collectionSize);
+    private ListTracesPagedResponse(ListTracesPage page) {
+      super(page, ListTracesFixedSizeCollection.createEmptyCollection());
     }
   }
 
-  public static class ListTracesPage implements Page<Trace> {
-    private final PageContext<ListTracesRequest, ListTracesResponse, Trace> context;
+  public static class ListTracesPage
+      extends AbstractPage<ListTracesRequest, ListTracesResponse, Trace, ListTracesPage> {
 
-    public ListTracesPage(PageContext<ListTracesRequest, ListTracesResponse, Trace> context) {
-      this.context = context;
+    private ListTracesPage(
+        PageContext<ListTracesRequest, ListTracesResponse, Trace> context,
+        ListTracesResponse response) {
+      super(context, response);
+    }
+
+    private static ListTracesPage createEmptyPage() {
+      return new ListTracesPage(null, null);
     }
 
     @Override
-    public Iterator<Trace> iterator() {
-      return context.getResourceIterable().iterator();
+    protected ListTracesPage createPage(
+        PageContext<ListTracesRequest, ListTracesResponse, Trace> context,
+        ListTracesResponse response) {
+      return new ListTracesPage(context, response);
     }
 
     @Override
-    public boolean hasNextPage() {
-      return context.hasNextPage();
+    protected ApiFuture<ListTracesPage> createPageAsync(
+        PageContext<ListTracesRequest, ListTracesResponse, Trace> context,
+        ApiFuture<ListTracesResponse> futureResponse) {
+      return super.createPageAsync(context, futureResponse);
+    }
+  }
+
+  public static class ListTracesFixedSizeCollection
+      extends AbstractFixedSizeCollection<
+          ListTracesRequest, ListTracesResponse, Trace, ListTracesPage,
+          ListTracesFixedSizeCollection> {
+
+    private ListTracesFixedSizeCollection(List<ListTracesPage> pages, int collectionSize) {
+      super(pages, collectionSize);
+    }
+
+    private static ListTracesFixedSizeCollection createEmptyCollection() {
+      return new ListTracesFixedSizeCollection(null, 0);
     }
 
     @Override
-    public String getNextPageToken() {
-      return context.getNextPageToken();
-    }
-
-    @Override
-    public ListTracesPage getNextPage() {
-      return new ListTracesPage(context.getNextPageContext());
-    }
-
-    public ListTracesPage getNextPage(int pageSize) {
-      return new ListTracesPage(context.getNextPageContext(pageSize));
-    }
-
-    @Override
-    public Iterable<Trace> iterateAll() {
-      return context.iterateAll();
-    }
-
-    public ListTracesResponse getResponse() {
-      return context.getResponse();
-    }
-
-    public ListTracesRequest getRequest() {
-      return context.getRequest();
+    protected ListTracesFixedSizeCollection createCollection(
+        List<ListTracesPage> pages, int collectionSize) {
+      return new ListTracesFixedSizeCollection(pages, collectionSize);
     }
   }
 }

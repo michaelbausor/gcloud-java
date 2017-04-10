@@ -167,7 +167,7 @@ public class QueryResult extends PageImpl<List<FieldValue>> {
     }
     QueryResult response = (QueryResult) obj;
     return Objects.equals(getNextPageToken(), response.getNextPageToken())
-        && Objects.equals(this.iterator(), response.iterator())
+        && Objects.equals(this.getValues(), response.getValues())
         && Objects.equals(schema, response.schema)
         && totalRows == response.totalRows
         && totalBytesProcessed == response.totalBytesProcessed
